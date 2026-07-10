@@ -158,11 +158,17 @@ return {
             -- т.к. use_border_highlights красит рамку только для border-таблицы.
             -- Порядок nvim: [tl, top, tr, right, br, bottom, bl, left].
             vim.g.molten_output_win_border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
+            -- Не срезать нижнюю линию рамки. molten с output_crop_border=true (дефолт)
+            -- обнуляет border[5], когда вывод не влезает под курсором — решение по
+            -- win_row исходного окна, ДО того как наш molten-float-80-patch переставит
+            -- окно в центр. Из-за этого нижней границы не было никогда. Наш float
+            -- фиксированного размера, экономить строку не нужно.
+            vim.g.molten_output_crop_border = false
 
             -- Инлайн-картинки (matplotlib/plotly и т.п.) через image.nvim в kitty
             vim.g.molten_image_provider = "image.nvim"
             vim.g.molten_virt_text_output = true   -- текстовый вывод как virtual text под ячейкой
-            vim.g.molten_wrap_output = true
+            vim.g.molten_wrap_output = false
             -- Фиксированная высота блока virtual-text (строк вывода, без заголовка).
             -- Короткий вывод паддится пустыми, длинный режется со счётчиком «More Lines».
             -- Читается нашим патчем molten (см. build ниже) — код ниже не смещается.
