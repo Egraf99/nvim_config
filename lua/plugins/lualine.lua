@@ -7,6 +7,9 @@ return {
         -- Обновляем по автокомандам ниже. Пустая строка => не arc-репозиторий.
         local arc_cache = ''
 
+        -- Иконка перед веткой (Nerd Font). Задаём байтами, чтобы глиф не терялся при копировании 
+        local arc_icon = '\238\156\130' -- U+E702  nf-dev-git         (логотип Git)
+
         local function arc_update()
             local dir = vim.fn.expand('%:p:h')
             if dir == '' then
@@ -39,7 +42,7 @@ return {
             if arc_cache == '' then
                 return ''
             end
-            return ' ' .. arc_cache
+            return arc_icon .. ' ' .. arc_cache
         end
 
         -- Состояние molten-nvim ведём сами, по его событиям (User MoltenInitPost /
