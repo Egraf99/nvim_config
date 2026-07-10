@@ -1,0 +1,70 @@
+-- local f = require('functool')
+--
+-- function _G.EmptyLinesFold(up, down)
+--     local up, down = up or 1, down or 1
+--     local cursor_line = vim.v.lnum
+--
+--     -- Gets all lines from cursor_line - up to cursor_line - 1
+--     local prev_lines = {}
+--     for i=1,up do
+--         local prev_line_n = cursor_line-i-1
+--
+--         if (prev_line_n >= 0) then
+--             table.insert(prev_lines, 1, vim.api.nvim_buf_get_lines(0, prev_line_n, prev_line_n+1, 0)[1])
+--         else
+--             table.insert(prev_lines, 1, '')
+--         end
+--     end
+--
+--     local current_line = vim.api.nvim_buf_get_lines(0, cursor_line-1, cursor_line, 0)[1] or ''
+--
+--     -- Gets all lines from cursor_line + 1 to cursor_line + down
+--     local buf_lines = vim.api.nvim_buf_line_count(0)
+--     local next_lines = {}
+--     for i=1,down do
+--         local next_line_n = cursor_line+i-1
+--
+--         if (next_line_n+1 <= buf_lines) then
+--             table.insert(next_lines, vim.api.nvim_buf_get_lines(0, next_line_n, next_line_n+1, 0)[1])
+--         else
+--             table.insert(next_lines, '')
+--         end
+--     end
+--
+--     local empty_line = vim.regex([[^\s*$]])
+--     local not_empty_line = vim.regex([[\S]])
+--
+--     local is_empty_prev_lines = f.all(f.map(prev_lines, function (text) return empty_line:match_str(text) ~= nil end))
+--     local is_empty_next_lines = f.all(f.map(next_lines, function (text) return empty_line:match_str(text) ~= nil end))
+--     local is_not_empty_current_line = not_empty_line:match_str(current_line) ~= nil
+--
+--     if is_empty_prev_lines and is_not_empty_current_line then
+--         -- Add fold
+--         return '>1'
+--     elseif is_empty_next_lines and is_not_empty_current_line then
+--         -- Remove fold
+--         return '<1'
+--     else
+--         -- Same fold
+--         return '='
+--     end
+-- end
+--
+-- function Fold()
+--     vim.opt_local.foldcolumn = "1"
+--     vim.opt_local.foldmethod = "expr"
+--     vim.opt_local.foldexpr=[[v:lua.EmptyLinesFold( 3, 3 )]]
+--     vim.opt_local.foldlevel = 99
+-- end
+--
+-- vim.cmd [[autocmd BufReadPost *.py lua Fold()]]
+-- vim.cmd [[autocmd InsertLeave *.py normal zx]]
+--
+-- return {
+--     { "kana/vim-textobj-user" },
+--     {
+--         "kana/vim-textobj-fold",
+--         dependencies = {"kana/vim-textobj-user"},
+--     }
+-- }
+return {}

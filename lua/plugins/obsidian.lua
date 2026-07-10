@@ -1,0 +1,24 @@
+vim.keymap.set("n", "<leader>o", ":Obsidian<CR>")
+
+vim.cmd[[ autocmd BufEnter *.md :set conceallevel=0 ]]
+
+return {
+  "obsidian-nvim/obsidian.nvim",
+  version = "*", -- use latest release, remove to use latest commit
+  ft = "markdown",
+  ---@module 'obsidian'
+  ---@type obsidian.config
+  opts = {
+    legacy_commands = false, -- this will be removed in the next major release
+    workspaces = {
+      {
+        name = "personal",
+        path = "~/obsidian/personal",
+      },
+      {
+        name = "work",
+        path = "~/obsidian/work",
+      },
+    },
+  },
+}
