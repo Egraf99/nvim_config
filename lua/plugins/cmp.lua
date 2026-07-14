@@ -76,8 +76,17 @@ return {
                     end,
                 },
                 window = {
-                    completion = { border = 'rounded' },
-                    documentation = { border = 'rounded' }
+                    -- Фон попапа и рамки = фон терминала (Normal), без синевы Pmenu/FloatBorder;
+                    -- синий фон остаётся только у выбранного пункта (CursorLine:Visual).
+                    -- Рамка одинарная скруглённая, линия рисуется цветом Normal.
+                    completion = {
+                        border = 'rounded',
+                        winhighlight = 'Normal:Normal,FloatBorder:Normal,CursorLine:Visual,Search:None',
+                    },
+                    documentation = {
+                        border = 'rounded',
+                        winhighlight = 'Normal:Normal,FloatBorder:Normal,Search:None',
+                    }
                 },
                 mapping = cmp.mapping.preset.insert({
                   ['<C-b>'] = cmp.mapping.scroll_docs(-4),
@@ -106,7 +115,42 @@ return {
             -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
             cmp.setup.cmdline(':', {
                 enabled = true,
-                mapping = cmp.mapping.preset.cmdline(),
+                -- Без noselect попап открывается с выбранным ПЕРВЫМ пунктом
+                -- (поведение Select — только подсветка, в строку ничего не вставляется).
+                preselect = cmp.PreselectMode.None,
+                completion = { completeopt = 'menu,menuone' },
+                mapping = cmp.mapping.preset.cmdline({
+                    -- Перемещение по списку (только подсветка, текст не дописывается).
+                    ['<C-j>'] = {
+                        c = function()
+                            if cmp.visible() then
+                                cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+                            else
+                                cmp.complete()
+                            end
+                        end,
+                    },
+                    ['<C-k>'] = {
+                        c = function()
+                            if cmp.visible() then
+                                cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+                            else
+                                cmp.complete()
+                            end
+                        end,
+                    },
+                    -- Tab: дописать выбранный пункт в строку (не выполняя команду).
+                    -- Enter не перехватываем — он выполняет команду штатно.
+                    ['<Tab>'] = {
+                        c = function()
+                            if cmp.visible() then
+                                cmp.confirm({ select = true })
+                            else
+                                cmp.complete()
+                            end
+                        end,
+                    },
+                }),
                 sources = cmp.config.sources({
                   { name = 'path' }
                 }, {
