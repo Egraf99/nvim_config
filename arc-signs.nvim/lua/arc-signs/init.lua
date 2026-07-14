@@ -14,11 +14,11 @@ local config = {
   auto_signcolumn = true, -- принудительно включать signcolumn в arc-буферах
   keymaps = true,         -- ]c / [c / <leader>hp в arc-буферах
   signs = {
-    add          = { text = "┃", hl = "ArcSignsAdd" },
-    change       = { text = "┃", hl = "ArcSignsChange" },
-    delete       = { text = "▁", hl = "ArcSignsDelete" },
-    topdelete    = { text = "▔", hl = "ArcSignsDelete" },
-    changedelete = { text = "~", hl = "ArcSignsChange" },
+    add          = { text = "▏", hl = "ArcSignsAdd" },
+    change       = { text = "▏", hl = "ArcSignsChange" },
+    delete       = { text = "_", hl = "ArcSignsDelete" },
+    topdelete    = { text = "‾", hl = "ArcSignsDelete" },
+    changedelete = { text = "⌊", hl = "ArcSignsChange" },
   },
 }
 
